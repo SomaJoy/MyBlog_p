@@ -2,10 +2,14 @@ package com.myblog.controller;
 
 import com.myblog.payload.PostDto;
 import com.myblog.service.PostService;
+import org.apache.catalina.LifecycleState;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.ClientInfoStatus;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -25,9 +29,15 @@ public class PostController {
     }
 
     //http://localhost:8080/api/posts?id=1
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<PostDto> getPostById(@RequestParam long id){
         PostDto dto = postService.getPostById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public List<PostDto> getAllPosts(){
+         List<PostDto> postDtos = postService.getAllPosts();
+         return postDtos;
     }
 }
