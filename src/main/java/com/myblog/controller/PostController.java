@@ -8,7 +8,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.ClientInfoStatus;
 import java.util.List;
 
 @RestController
@@ -39,9 +38,11 @@ public class PostController {
     @GetMapping
     public List<PostDto> getAllPosts(
             @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "3") int pageSize
+            @RequestParam(name = "pageSize", required = false, defaultValue = "3") int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortDir", required = false, defaultValue = "ASC") String sortDir
     ){
-         List<PostDto> postDtos = postService.getAllPosts(pageNo, pageSize);
+         List<PostDto> postDtos = postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
          return postDtos;
     }
 }
