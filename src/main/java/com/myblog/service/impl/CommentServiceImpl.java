@@ -50,14 +50,30 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto updateComment(CommentDto commentDto, long id) {
+    public CommentDto updateComment(CommentDto commentDto, long id, long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new ResourceNotFoundException("Post does not exist for id - "+postId)
+        );
         Comment comment = commentRepository.findById(id).orElseThrow(
                 ()-> new ResourceNotFoundException("Comment does not exist with id - "+id)
         );
-        comment.setText(commentDto.getText());
-        comment.setEmail(commentDto.getEmail());
-        Comment updatedComment = commentRepository.save(comment);
-        CommentDto dto = modelMapper.map(updatedComment, CommentDto.class);
+//        comment.setText(commentDto.getText());
+//        comment.setEmail(commentDto.getEmail());
+        Comment com = mapToEntity(commentDto);
+        com.setId(comment.getId());
+        com.setPost(post);
+        Comment updatedComment = commentRepository.save(com);
+        CommentDto dto = mapToDto(updatedComment);
         return dto;
+    }
+
+    public  CommentDto mapToDto(Comment comment){
+        CommentDto dto = modelMapper.map(comment, CommentDto.class);
+        return dto;
+    }
+
+    public Comment mapToEntity(CommentDto commentDto){
+        Comment comment = modelMapper.map(commentDto, Comment.class);
+        return comment;
     }
 }
