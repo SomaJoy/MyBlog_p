@@ -6,12 +6,13 @@ import org.apache.catalina.LifecycleState;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/post")
 public class PostController {
 
     private PostService postService;
@@ -20,8 +21,8 @@ public class PostController {
         this.postService = postService;
     }
 
+    //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-
     public ResponseEntity<PostDto> createPost (@RequestBody PostDto postDto){
         PostDto dto = postService.crteatePost(postDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
