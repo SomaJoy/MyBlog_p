@@ -29,7 +29,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/post").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/auth/signup").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
